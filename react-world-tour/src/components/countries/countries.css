@@ -1,0 +1,22 @@
+.container{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+.flag-container img{
+    width: 100px;
+}
+
+@media screen and (max-width: 576px) {
+    .container{
+        flex-direction: row;
+        grid-template-columns: repeat(1, 1fr);
+    }
+    
+}
+
+@media screen and (min-width:576px) and (max-width:992px) {
+   .container{
+    grid-template-columns: repeat(2, 1fr);
+   }
+}

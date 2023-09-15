@@ -1,0 +1,65 @@
+import { useEffect, useState } from "react"
+import Country from "../country/country";
+import './countries.css'
+
+export default function Countries(){
+    const [countries, setCountries] = useState([]);
+    const [visitedCountries, setVisitedCountries] = useState([]);
+    const [visitedFlags, setVisitedFlags] = useState([]);
+    
+
+
+    useEffect(()=>{
+        fetch('https://restcountries.com/v3.1/all')
+        .then (res => res.json())
+        .then(data => setCountries(data))
+    },[])
+
+
+    const handleVisitedCountry = (country) => {
+        console.log('add this to your visited country');
+        const newVisitedCountries = [...visitedCountries, country]
+        setVisitedCountries(newVisitedCountries)
+    }
+
+
+    const handleVisitedFlags = (flag) => {
+        const newVisitedFlags = [...visitedFlags, flag]
+        setVisitedFlags(newVisitedFlags)
+    }
+
+
+
+    return(
+        <div>
+           <h3 className="h"> Countries: {countries.length}</h3>
+           <div  style={{
+                    marginRight: '80PX'
+                }}>
+                <h4>Visited Countries: {visitedCountries.length}</h4>
+                <ul>
+                    {
+                        visitedCountries.map(country => <ol key={country.cca3}>{country.name.common}</ol>)
+                    }
+                </ul>
+           </div>
+
+           <div className="flag-container img">
+                    {
+                        visitedFlags.map(flag => <img key={flag.cca3} src={flag}></img>)
+                    }
+           </div>
+
+
+            <div className="container">
+            {
+                countries.map(country => <Country
+                     key={country.cca3}
+                     handleVisitedCountry = {handleVisitedCountry}
+                     handleVisitedFlags = {handleVisitedFlags}
+                     country={country}></Country>)
+            }
+            </div>
+        </div>
+    )
+}
